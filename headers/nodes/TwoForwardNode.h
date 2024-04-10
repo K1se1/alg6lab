@@ -9,8 +9,8 @@ namespace structures
         private:
             TwoForwardNode* previous;
         public:
-            TwoForwardNode(const T &data): this.data(data), next(nullptr), previous(nullptr) {}
-            void SetPrevious(TwoForwardNode<T>* previous): this->previous(previous) {};
+            TwoForwardNode(const T &data): OneForwardNode(data) {}
+            void SetPrevious(TwoForwardNode<T>* previous) { this->previous(previous) };
             TwoForwardNode* GetPrevious() { return previous; }
 
     };
