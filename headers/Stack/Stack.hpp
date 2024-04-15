@@ -1,5 +1,5 @@
 #pragma once 
-#include "..\nodes\OneForwardNode.h"
+#include "..\Nodes\OneForwardNode.hpp"
 namespace structures
 {
 
@@ -10,9 +10,11 @@ class Stack
         OneForwardNode<T>* Top;
     public:
         Stack(const T&);
+        Stack();
         ~Stack();
         void Push(const T&); // помещаем элемент в начало
         T Pop(); // удаляем и возвращаем элемент из конца
+        bool IsEmpty(); // пуст ли стэк
 };
 
 
@@ -20,10 +22,15 @@ class Stack
 
 
 template<class T>
+structures::Stack<T>::Stack(): Top(nullptr) {}
+
+
+template<class T>
 structures::Stack<T>::Stack(const T& data)
 {
     Top = new OneForwardNode<T>(data);
 }
+
 
 template<class T>
 structures::Stack<T>::~Stack()
@@ -50,6 +57,8 @@ void structures::Stack<T>::Push(const T& data)
 template<class T>
 T structures::Stack<T>::Pop()
 {
+    if(Top == nullptr)
+        throw std::out_of_range("Stack is empty!!!");
     OneForwardNode<T>* next;
     T data;
     data = Top->GetData();
@@ -59,3 +68,7 @@ T structures::Stack<T>::Pop()
     return data;
     
 }
+
+
+template<class T>
+bool structures::Stack<T>::IsEmpty(){ return !Top; }

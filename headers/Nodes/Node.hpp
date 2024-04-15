@@ -9,7 +9,7 @@ namespace structures
         private:
         T* data;
         public:
-        Node(const T& data){this->data = new T;
+        Node(const T& data = 0){this->data = new T;
                             *(this->data) = data;};
         virtual ~Node() {delete data;};
         virtual void SetData(const T& data) {*(this->data) = data;}
