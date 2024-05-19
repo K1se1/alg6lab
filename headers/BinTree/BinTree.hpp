@@ -11,13 +11,20 @@ class BinTree
 {
     private:
         TwoForwardNode<T> *root;
-        void PreOrderData(TwoForwardNode<T>* root, std::vector<T>& result); // Это либо хитрость, либо глупость, хочу так реализовать рекурсию внутри класса
+        void PreOrderData(TwoForwardNode<T>* root, std::vector<T>& result);
+        void PostOrderData(TwoForwardNode<T>* root, std::vector<T>& result);
+        void InOrderData(TwoForwardNode<T>* root, std::vector<T>& result);
+        void ReverseInOrderData(TwoForwardNode<T>* root, std::vector<T>& result);
+
     public:
         BinTree();
         BinTree(const T& data);
         void Insert(const T& data);
         bool FindData(const T& data) const;
         std::vector<T> PreOrderData();
+        std::vector<T> PostOrderData();
+        std::vector<T> InOrderData();
+        std::vector<T> ReverseInOrderData();
 };
 
 template<class T>
@@ -69,8 +76,8 @@ void BinTree<T>::PreOrderData(TwoForwardNode<T>* root, std::vector<T> &result)
     if(root == nullptr)
         return;
     result.push_back(root->GetData());
-    PreOrderData(root->GetNext(), result);
     PreOrderData(root->GetPrevious(), result);
+    PreOrderData(root->GetNext(), result);
 }
 
 template<class T>
@@ -78,12 +85,84 @@ std::vector<T> BinTree<T>::PreOrderData()
 {
     if(root == nullptr)
         throw std::logic_error("BinTree is empty!!!!");
+
     std::vector<T> result(1, root->GetData());
-    PreOrderData(root->GetNext(), result);
     PreOrderData(root->GetPrevious(), result);
+    PreOrderData(root->GetNext(), result);
+
     return result;
 
 }
 
 
+template<class T>
+void BinTree<T>::InOrderData(TwoForwardNode<T>* root, std::vector<T> &result)
+{
+    if(root == nullptr)
+        return;
+    InOrderData(root->GetPrevious(), result);
+    result.push_back(root->GetData());
+    InOrderData(root->GetNext(), result);
+}
+
+template<class T>
+std::vector<T> BinTree<T>::InOrderData()
+{
+    if(root == nullptr)
+        throw std::logic_error("BinTree is empty!!!!");
+    std::vector<T> result;
+    InOrderData(root->GetPrevious(), result);
+    result.push_back(root->GetData());
+    InOrderData(root->GetNext(), result);
+    return result;
+}
+
+
+template<class T>
+void BinTree<T>::PostOrderData(TwoForwardNode<T>* root, std::vector<T> &result)
+{
+    if(root == nullptr)
+        return;
+    PostOrderData(root->GetPrevious(), result);
+    PostOrderData(root->GetNext(), result);
+    result.push_back(root->GetData());
+
+}
+
+
+template<class T>
+std::vector<T> BinTree<T>::PostOrderData()
+{
+    if(root == nullptr)
+        throw std::logic_error("BinTree is empty!!!!");
+    std::vector<T> result;
+    PostOrderData(root->GetPrevious(), result);
+    PostOrderData(root->GetNext(), result);   
+    result.push_back(root->GetData());
+    return result;
+}   
+
+
+template<class T>
+void BinTree<T>::ReverseInOrderData(TwoForwardNode<T>* root, std::vector<T> &result)
+{
+    if(root == nullptr)
+        return;
+    ReverseInOrderData(root->GetNext(), result);
+    result.push_back(root->GetData());
+    ReverseInOrderData(root->GetPrevious(), result);
+}
+
+
+template<class T>
+std::vector<T> BinTree<T>::ReverseInOrderData()
+{
+    std::vector<T> result;
+    if(root == nullptr)
+        throw std::logic_error("BinTree is empty!!!!");
+    ReverseInOrderData(root->GetNext(), result);
+    result.push_back(root->GetData());
+    ReverseInOrderData(root->GetPrevious(), result);   
+    return result;
+}
 }
